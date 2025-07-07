@@ -1,0 +1,1374 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>Корейская кухня | Koreë</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:700,500,400&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #f5f3ee;
+      font-family: 'Montserrat', Arial, sans-serif;
+      color: #222;
+    }
+    .layout { display: flex;
+       min-height: 100vh;
+        width: 100vw; 
+        box-sizing: border-box; }
+    .sidebar {
+  position: fixed;
+  top: 0;
+  left: -30px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 230px;
+  background: var(--sidebar-bg);
+  padding: 30px 0 0 36px;
+  min-width: 190px;
+  border-right: 1px solid #edeae2;
+  z-index: 10;
+}
+.theme-toggle-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+  margin-right: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+
+.center {
+  margin-left: 230px;
+  padding: 0 30px;
+  /* остальное... */
+}
+
+    
+    .menu-title { font-size: 1.1em;
+       font-weight: bold; 
+       margin-bottom: 8px; 
+       margin-left: 2px;
+        color: #363636; }
+    .menu-btn {
+      background: none;
+       border: none; font: inherit; 
+       font-size: 1.05em; color: #222;
+      text-align: left;
+       border-radius: 9px;
+       padding: 7px 14px; 
+      cursor: pointer;
+      transition: background .14s, color .14s;
+       width: 85%;
+    }
+    .menu-btn.active, .menu-btn:hover { background: #fff; color: #d17c13; font-weight: bold; }
+    .center { flex: 1;
+       display: flex;
+        flex-direction: column;
+         padding: 0 30px; }
+    .banner {
+      width: 100%; max-width: 1500px; 
+      height: 260px;
+      margin: 32px auto 24px auto;
+       border-radius: 36px 80px 36px 36px;
+      overflow: hidden;
+       position: relative; 
+       background: #eee;
+      box-shadow: 0 4px 24px #b9bab933; 
+      display: flex;
+       align-items: flex-end;
+    }
+    .banner img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .banner-content { position: absolute;
+       left: 40px;
+        bottom: 40px; 
+        color: #fff; }
+    .banner-title { font-size: 2.3em;
+       font-weight: 700;
+        margin-bottom: 20px;
+         letter-spacing: .03em;
+          text-shadow: 0 2px 16px #0007; }
+    .section-title { font-size: 1.5em;
+       font-weight: 700; 
+       margin-bottom: 20px; 
+       margin-top: 16px;
+        color: #222; }
+    .dishes { display: flex;
+       flex-wrap: wrap; gap: 28px;
+        margin-bottom: 30px; }
+    .dish-card {
+      background: #fff; border-radius: 18px;
+       width: 210px; 
+       box-shadow: 0 2px 18px #b9bab933;
+      padding: 0 0 18px 0; overflow: hidden;
+       transition: box-shadow .15s, transform .12s;
+      display: flex; 
+      flex-direction: column;
+       align-items: flex-start;
+    }
+    .dish-card:hover { box-shadow: 0 8px 32px #b9bab988;
+       transform: translateY(-4px) scale(1.025); }
+    .dish-img { width: 100%;
+       height: 128px;
+        object-fit: cover;
+         border-top-left-radius: 18px;
+          border-top-right-radius: 18px; }
+    .dish-content { padding: 14px 14px 0 14px;
+       flex: 1;
+        width: 100%;
+         display: flex;
+          flex-direction: column;
+           align-items: flex-start; }
+    .dish-price { font-weight: 700; 
+      font-size: 1.18em;
+       margin-bottom: 7px; }
+    .dish-title { font-weight: 600;
+       font-size: 1.03em;
+        margin-bottom: 7px;
+         overflow: hidden;
+          white-space: nowrap; 
+          text-overflow: ellipsis;
+           width: 100%; }
+    .dish-desc { color: #444;
+       font-size: .98em;
+        margin-bottom: 8px; 
+        height: 2.5em;
+         overflow: hidden; }
+    .dish-weight { color: #b3a9a1;
+       font-size: .95em; 
+       margin-bottom: 9px; }
+    .add-btn {
+      background: #f7f7f7;
+       color: #333;
+        font-weight: 500;
+         border: none;
+          border-radius: 10px;
+      padding: 9px 0;
+       font-size: 1em;
+        width: 90%; 
+        cursor: pointer;
+         box-shadow: 0 1px 7px #0001;
+      transition: background .18s,
+       color .18s;
+        margin-left: 5%;
+         display: flex; 
+         align-items: center;
+          justify-content: center;
+           gap: 7px;
+    }
+    .add-btn:hover { background: #ffe7c2; color: #db780a; }
+    .cart {
+      width: 290px;
+       min-width: 230px;
+        background: #fff; 
+        padding: 36px 28px 24px 28px;
+      border-radius: 26px;
+       margin: 18px 14px 18px 0;
+        box-shadow: 0 2px 18px #b9bab933;
+      display: flex;
+       flex-direction: column; 
+       align-items: center;
+        height: fit-content;
+         position: sticky;
+          top: 18px;
+    }
+    .cart-title { font-size: 1.2em; 
+      font-weight: bold;
+       margin-bottom: 26px;
+        color: #222;
+         text-align: left;
+          width: 100%; }
+    .cart-empty { text-align: center;
+       color: #aaa;
+        margin-top: 30px; 
+        font-size: 1.08em; }
+    .cart-empty-img { width: 60px;
+       margin-bottom: 8px;
+        opacity: 0.6; }
+    .cart-items { width: 100%;
+       margin-bottom: 18px; }
+    .cart-item {
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center;
+       background: #f6f6f3;
+      border-radius: 8px;
+       padding: 7px 11px;
+        margin-bottom: 7px;
+    }
+    .cart-item-title { font-size: .97em;
+       max-width: 110px; 
+       overflow: hidden; 
+       text-overflow: ellipsis;
+        white-space: nowrap; }
+    .cart-item-qty { width: 24px;
+       text-align: center; 
+       font-size: 1.02em; }
+    .cart-total { margin-top: 10px;
+       font-weight: bold;
+        font-size: 1.13em;
+         text-align: right; 
+         width: 100%; }
+    .order-btn {
+      margin-top: 20px; 
+      width: 100%;
+       padding: 13px 0;
+      background: linear-gradient(90deg, #ffcc80, #ffb74d); color: #222; 
+      font-weight: 
+      bold; font-size: 1.07em;
+      border: none; 
+      border-radius: 11px;
+       box-shadow: 0 1px 10px #0002;
+        cursor: pointer;
+         transition: background 0.15s, color 0.15s, transform 0.1s; letter-spacing: .01em;
+    }
+    .order-btn:hover, .order-btn:focus { background: linear-gradient(90deg, #ffb74d, #ffcc80); 
+      color: #d17c13;
+       transform: translateY(-2px) scale(1.02); }
+    .order-modal {
+      display: none;
+       position: fixed; 
+       z-index: 999; left: 0;
+        top: 0;
+         right: 0; 
+         bottom: 0;
+      background: rgba(0,0,0,0.55); justify-content: center; align-items: center;
+    }
+    .order-form {
+      background: #232323;
+       border-radius: 14px;
+        padding: 32px 24px 24px 24px;
+         width: 350px;
+      display: flex;
+       flex-direction: column; 
+       gap: 18px;
+        box-shadow: 0 4px 30px #0004;
+    }
+    .order-title { font-size: 22px; 
+      margin-bottom: 6px;
+       color: #fff; 
+       text-align: center; 
+       font-weight: 700; }
+    .order-form input {
+      background: #15151b;
+       border: 1px solid #3b3b3b;
+        border-radius: 7px;
+         color: #fff; 
+         padding: 10px 12px;
+      font-size: 16px;
+       outline: none;
+    }
+    .order-form button {
+      background: #51ff00; color: #fff; border: none; padding: 12px; border-radius: 7px;
+      font-size:
+       17px; cursor: pointer; 
+       margin-top: 6px; 
+       font-weight: 600; 
+       transition: 0.2s;
+    }
+    .order-form .close-modal-btn {
+      background: none; 
+      color: #ff0000; 
+      border: 1px solid #970404; margin-top: 0;
+    }
+    @media (max-width: 1100px) {
+      .sidebar {width: 120px; min-width: 80px; padding-left: 8px;}
+      .center {padding: 0 10px;}
+      .cart {width: 170px; min-width: 120px;}
+      .dish-card {width: 140px;}
+      .banner-content {left: 18px;}
+    }
+    @media (max-width: 900px) {
+      .layout {flex-direction: column;}
+      .sidebar, .cart {position: static; width: 100vw; min-width: unset; border-radius: 0; box-shadow: none; margin: 0;}
+      .center {padding: 0;}
+    }
+    /* общая обёртка модалки */
+.modal {
+  display: none;
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.5);
+  justify-content: center;
+  align-items: center;
+}
+
+/* содержимое модалки */
+.modal-content {
+  background: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 320px;
+  position: relative;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+}
+
+/* кнопка закрытия */
+.modal-close {
+  position: absolute;
+  top:8px; right:12px;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+/* стили для форм */
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.auth-form h2 {
+  margin: 0 0 12px;
+}
+.auth-form input,
+.auth-form button {
+  padding: 8px 12px;
+  font-size: 1em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+}
+.auth-form button {
+  cursor: pointer;
+  background: #ffcc80;
+  border: none;
+}
+.auth-form p {
+  font-size: .9em;
+  text-align: center;
+}
+.auth-form a {
+  color: #d17c13;
+  text-decoration: none;
+}
+.profile-btn {
+  width: 100%;
+  padding: 9px 12px;
+  font-size: 1em;
+  border: none;
+  border-radius: 10px;
+  background: #f7f7f7;       /* тот же фон, что у .add-btn */
+  color: #333;               /* или #222 — как у вашего текста */
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  box-shadow: 0 1px 7px rgba(0,0,0,0.1);
+  transition: background .18s, color .18s;
+}
+
+.profile-btn:hover {
+  background: #ffe7c2;       /* как для .add-btn:hover */
+  color: #db780a;
+}
+.profile-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  /* убираем left: 50%; transform */
+  width: 100%; /* делаем ширину такую же, как у профиля */
+  min-width: 100%; /* минимально — как у кнопки */
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 16px #b9bab944;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+  margin-top: 8px;
+}
+
+.dropdown-item {
+  background: none;
+  border: none;
+  padding: 11px 18px;
+  text-align: left;
+  font-size: 1em;
+  color: #333;
+  cursor: pointer;
+  transition: background 0.14s;
+}
+
+.dropdown-item:hover {
+  background: #ffe7c2;
+  color: #d17c13;
+}
+.profile {
+  position: relative;
+}
+
+:root {
+  --main-bg: #f5f3ee;
+  --sidebar-bg: #f5f3ee;
+  --card-bg: #fff;
+  --text-main: #222;
+  --text-secondary: #363636;
+  --cart-bg: #fff;
+  --modal-bg: #fff;
+}
+
+body.dark {
+  --main-bg: #19191a;
+  --sidebar-bg: #171719;
+  --card-bg: #202022;
+  --text-main: #eee;
+  --text-secondary: #ffd180;
+  --cart-bg: #18181a;
+  --modal-bg: #232323;
+}
+
+/* Применяем цвета из переменных */
+body {
+  background: var(--main-bg);
+  color: var(--text-main);
+}
+.sidebar {
+  background: var(--sidebar-bg);
+}
+.cart, .dish-card, .modal-content {
+  background: var(--card-bg);
+  color: var(--text-main);
+}
+.menu-title, .cart-title, .section-title {
+  color: var(--text-secondary);
+}
+
+/* Тумблер */
+.theme-toggle-wrap {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 25px;
+  margin-right: 0;
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.theme-toggle-label {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 5px;
+  user-select: none;
+}
+.theme-toggle-slider {
+  width: 40px;
+  height: 22px;
+  background: #ffd180;
+  border-radius: 16px;
+  margin: 0 5px;
+  position: relative;
+  transition: background .2s;
+  box-shadow: 0 1px 5px #0001;
+}
+.theme-toggle-label .theme-toggle-icon {
+  font-size: 1.22em;
+  transition: filter 0.2s;
+}
+.theme-toggle-label .moon { opacity: 0.7; }
+.theme-toggle-label .sun  { opacity: 1; }
+#theme-toggle:checked + .theme-toggle-label .theme-toggle-slider {
+  background: #232343;
+}
+#theme-toggle:checked + .theme-toggle-label .sun { opacity: 0.6; }
+#theme-toggle:checked + .theme-toggle-label .moon { opacity: 1; }
+/* Круглый бегунок */
+.theme-toggle-slider::before {
+  content: "";
+  display: block;
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  background: #fffde4;
+  position: absolute;
+  left: 2px; top: 1px;
+  box-shadow: 0 1px 5px #0002;
+  transition: left 0.23s cubic-bezier(.5,1.6,.6,1);
+}
+#theme-toggle:checked + .theme-toggle-label .theme-toggle-slider::before {
+  left: 18px;
+  background: #ffe066;
+}
+
+body.dark .sidebar {
+  background: #18181b;
+  border-right: 1.5px solid #232329;
+}
+body.dark .menu-title {
+  color: #ffe08a;
+  font-weight: 700;
+}
+body.dark .menu-btn {
+  background: none;
+  color: #ece5d9;
+  border-radius: 9px;
+  font-weight: 500;
+}
+body.dark .menu-btn.active,
+body.dark .menu-btn:focus {
+  background: linear-gradient(90deg, #26262a 60%, #232327 100%);
+  color: #ffcf70;
+  font-weight: 700;
+  box-shadow: 0 2px 10px #2224;
+}
+body.dark .menu-btn:hover:not(.active) {
+  background: #222229;
+  color: #ffd36a;
+  font-weight: 600;
+  transition: background 0.16s, color 0.14s;
+}
+body.dark #orders-modal .modal-content {
+  background: #222227 !important;
+  border-radius: 18px;
+  box-shadow: 0 4px 36px #0009;
+  color: #ffe6ac;
+  padding: 24px 18px 18px 18px;
+  border: 1.5px solid #232324;
+  min-width: 360px;
+  max-width: 520px;
+}
+
+body.dark #orders-modal .modal-close {
+  color: #ffe6ac !important;
+}
+
+body.dark #orders-list > div {
+  background: #1a1a1e !important;
+  border-radius: 14px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 10px #0005;
+  padding: 18px 20px 12px 18px !important;
+  color: #ffe6ac !important;
+  transition: box-shadow 0.15s;
+}
+
+body.dark #orders-list > div:hover {
+  box-shadow: 0 8px 32px #0007;
+}
+
+body.dark #orders-list b,
+body.dark #orders-list .order-sum,
+body.dark #orders-list .order-date {
+  color: #ffe08a !important;
+  font-weight: 700;
+}
+
+body.dark #orders-list span,
+body.dark #orders-list .order-address {
+  color: #ffdfa6 !important;
+  font-weight: 400;
+}
+
+body.dark #orders-list img {
+  border-radius: 10px;
+  background: #23232b;
+  border: 1px solid #23232b;
+}
+
+/* Скрыть слишком светлые элементы */
+body.dark #orders-list * {
+  text-shadow: none !important;
+  filter: none !important;
+}
+body.dark .cart {
+  background: #232328 !important;
+  color: #ffe6ac !important;
+  box-shadow: 0 4px 32px #0009;
+  border-radius: 26px;
+  border: 1.5px solid #242426;
+}
+
+body.dark .cart-title {
+  color: #ffe6ac !important;
+}
+
+body.dark .cart-item {
+  background: #18181d !important;
+  border-radius: 8px;
+  color: #ffe6ac !important;
+  box-shadow: 0 2px 10px #0007;
+}
+
+body.dark .cart-item-title {
+  color: #ffe6ac !important;
+}
+
+body.dark .cart-item-qty {
+  color: #ffe6ac !important;
+}
+
+body.dark .cart-item-btn {
+  background: #31313b !important;
+  color: #ffe6ac !important;
+  border: 1px solid #363642 !important;
+  border-radius: 5px;
+  padding: 2px 8px;
+  font-size: 1.09em;
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+body.dark .cart-item-btn:hover {
+  background: #ffcc80 !important;
+  color: #232328 !important;
+  border-color: #ffcc80 !important;
+}
+
+body.dark .cart-total {
+  color: #ffe6ac !important;
+  text-shadow: 0 2px 6px #0008;
+}
+
+body.dark .order-btn {
+  background: linear-gradient(90deg, #ffcc80, #ffb74d) !important;
+  color: #222 !important;
+  font-weight: bold;
+  border: none;
+  border-radius: 11px;
+  box-shadow: 0 1px 10px #0005;
+  transition: background 0.18s, color 0.18s;
+}
+body.dark .order-btn:hover, 
+body.dark .order-btn:focus {
+  background: linear-gradient(90deg, #ffb74d, #ffcc80) !important;
+  color: #d17c13 !important;
+}
+body.dark .profile-btn {
+  background: #232328 !important;
+  color: #ffe6ac !important;
+  border: none !important;
+  box-shadow: 0 2px 10px #0007;
+}
+body.dark .profile-btn > div {
+  background: #d17c13 !important;
+  color: #fff !important;
+}
+body.dark .profile-dropdown {
+  background: #232328 !important; /* тёмный фон */
+  color: #ffe6ac !important;      /* светлый текст */
+  box-shadow: 0 4px 16px #0009;
+  border: 1.5px solid #242426;
+}
+
+body.dark .dropdown-item {
+  color: #ffe6ac !important;         /* светлый текст */
+}
+
+body.dark .dropdown-item:hover {
+  background: #35353a !important;    /* чуть светлее фон при наведении */
+  color: #ffd36a !important;         /* золотой при ховере */
+}
+
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <!-- Левое меню -->
+    <div class="sidebar">
+      <!-- 1) Кнопка входа -->
+<div class="profile">
+  <button id="profile-btn" class="profile-btn">Войти</button>
+  <div id="profile-dropdown" class="profile-dropdown" style="display:none;">
+    <button id="my-orders-btn" class="dropdown-item">Мои заказы</button>
+    <button id="logout-btn" class="dropdown-item">Выйти</button>
+  </div>
+</div>
+
+
+
+<!-- 2) Модалка авторизации -->
+<div id="auth-modal" class="modal">
+  <div class="modal-content">
+    <span id="auth-close" class="modal-close">&times;</span>
+
+    <!-- Форма входа -->
+    <form id="login-form" class="auth-form">
+  <h2>Вход</h2>
+  <input type="text" id="login-identifier" placeholder="Логин или e-mail" required>
+  <input type="password" id="login-password" placeholder="Пароль" required>
+  <button type="submit">Войти</button>
+  <p>Нет аккаунта? <a href="#" id="show-register">Зарегистрироваться</a></p>
+</form>
+
+    <!-- Форма регистрации (скрыта по-умолчанию) -->
+    <form id="register-form" class="auth-form" style="display:none;">
+      <h2>Регистрация</h2>
+      <input type="email"    id="reg-email"    placeholder="E-mail" required>
+      <input type="text"     id="reg-username" placeholder="Логин"  required>
+      <input type="password" id="reg-password" placeholder="Пароль" required>
+      <button type="submit">Зарегистрироваться</button>
+      <div id="register-error" style="color: #c0392b; margin: 5px 0 0 2px; font-size: 0.97em; display:none;"></div>
+      <p>Уже есть аккаунт? <a href="#" id="show-login">Войти</a></p>
+    </form>
+  </div>
+</div>
+      <div>
+        <div class="menu-title">Меню</div>
+        <button class="menu-btn active" data-category="all">Все</button>
+        <button class="menu-btn" data-category="cold">Холодные блюда</button>
+        <button class="menu-btn" data-category="salat">Салаты</button>
+        <button class="menu-btn" data-category="zakuski">Закуски</button>
+        <button class="menu-btn" data-category="soup">Супы</button>
+        <button class="menu-btn" data-category="hot">Горячие блюда</button>
+        <!-- Тумблер темы — В САМОМ НИЗУ -->
+  <div class="theme-toggle-wrap">
+    <input type="checkbox" id="theme-toggle" hidden>
+    <label for="theme-toggle" class="theme-toggle-label">
+      <span class="theme-toggle-icon sun">⛅️</span>
+      <span class="theme-toggle-slider"></span>
+      <span class="theme-toggle-icon moon">🌑</span>
+    </label>
+  </div>
+      </div>
+    </div>
+    <!-- Центральная часть -->
+    <div class="center">
+      <div class="banner">
+        <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&w=1200&q=80" alt="Корейская кухня">
+        <div class="banner-content">
+          <div class="banner-title">MYAU</div>
+        </div>
+      </div>
+      <div class="section-title">Выбор пользователей</div>
+      <div class="dishes" id="dish-list"></div>
+    </div>
+    <!-- Правая корзина -->
+    <div class="cart" id="cart">
+      <div class="cart-title">Корзина</div>
+      <div class="cart-items" id="cart-items"></div>
+      <div class="cart-empty" id="cart-empty">
+        <img src="https://cdn-icons-png.flaticon.com/512/5956/5956593.png" class="cart-empty-img" alt="Пусто">
+        <div>В вашей корзине пока пусто</div>
+      </div>
+      <div class="cart-total" id="cart-total"></div>
+      <button id="order-btn" class="order-btn">Оформить заказ</button>
+    </div>
+    <div id="order-modal" class="order-modal">
+      <form id="order-form" class="order-form">
+        <div class="order-title">Оформление заказа</div>
+        <input type="text" id="order-name" placeholder="Имя" required>
+        <input type="text" id="order-lastname" placeholder="Фамилия" required>
+        <input type="tel" id="order-phone" placeholder="Телефон" required>
+        <input type="text" id="order-address" placeholder="Адрес" required>
+        <button type="submit" class="send-order-btn">Подтвердить заказ</button>
+        <button type="button" id="close-order-modal" class="close-modal-btn">Отмена</button>
+      </form>
+      <div id="order-success" style="display:none;text-align:center;font-size:18px;margin-top:30px;">Спасибо за заказ!</div>
+    </div>
+    <!-- МОДАЛКА ЗАКАЗОВ -->
+<div id="orders-modal" class="modal" style="display:none;">
+  <div class="modal-content" style="min-width:350px;max-width:480px;position:relative;">
+    <span id="orders-close" class="modal-close">&times;</span>
+    <button id="orders-clear" style="position:absolute;top:14px;right:45px;background:#e74c3c;color:#fff;padding:6px 12px;border:none;border-radius:7px;cursor:pointer;font-size:0.95em;">Очистить заказы</button>
+    <div id="orders-list" style="margin-top:38px;"></div>
+  </div>
+</div>
+
+  </div>
+
+  <script>
+    // Список блюд (без дубликатов)
+    const dishes = [
+      {price: 550, 
+        name: 'Хемультан',
+         desc: 'Корейский острый суп из окуня с морепродуктами...',
+          weight: '360 г',
+           img: 'https://koreana.rest/upload/products/%D1%85%D0%B5%D0%BC%D1%83%D0%BB%D1%8C%D1%82%D0%B0%D0%BD[1].webp', 
+           category: 'soup'},
+      {price: 550,
+        name: 'Юккедян',
+         desc: 'Мясной сытный суп с густым говяжим бульоном...',
+          weight: '360 г',
+           img: 'https://koreana.rest/upload/products/%D1%8E%D0%BA%D0%BA%D0%B5%D0%B4%D1%8F%D0%BD[1].webp', 
+           category: 'soup'},
+      {price: 550, 
+        name: 'Том ям',
+         desc: 'Том Ям – самый знаменитый в мире суп паназиатской кухни...',
+          weight: '360 г',
+           img: 'https://koreana.rest/upload/products/%D1%82%D0%BE%D0%BC%D1%8F%D0%BC[1].webp', 
+           category: 'soup'},
+      {price: 590,
+         name: 'Кимчи Тиге',
+          desc: 'Сочетание острого бульона, мяса, кимчи и тофу...',
+           weight: '350 г',
+            img: 'https://koreana.rest/upload/products/%D0%BA%D0%B8%D0%BC%D1%87%D0%B8%D1%82%D0%B8%D0%B3%D0%B5[1].webp',
+             category: 'soup'},
+      {price: 620,
+         name: 'Кимчи Рамен',
+          desc: 'Острый и нежный, яркий и сливочный, наваристый горячий рамен...',
+           weight: '380 г',
+            img: 'https://koreana.rest/upload/products/%D0%BA%D0%B8%D0%BC%D1%87%D0%B8%D1%80%D0%B0%D0%BC%D0%B5%D0%BD[1].webp',
+             category: 'soup'},
+      {price: 550,
+         name: 'Тямпон',
+          desc: 'Острый суп с морепродуктами, овощами и пшеничной лапшой...',
+           weight: '360 г',
+            img: 'https://koreana.rest/upload/products/%D1%82%D1%8F%D0%BC%D0%BF%D0%BE%D0%BD[1].webp',
+             category: 'soup'},
+      {price: 650,
+         name: 'Тансуюк', 
+         desc: 'Для приготовления свинины в кисло-сладком соусе мы используем рецепт с 200-летней историей...', 
+         weight: '330 г',
+          img: 'https://koreana.rest/upload/products/%D1%82%D0%B0%D0%BD%D1%81%D1%83%D1%8E%D0%BA[1].webp',
+          category: 'hot'},
+      {price: 650,
+         name: 'Лосось Терияки',
+          desc: 'Свежий и сочный стейк из лосося...',
+           weight: '330 г'
+           , img: 'https://koreana.rest/upload/products/%D0%BB%D0%BE%D1%81%D0%BE%D1%81%D1%8C%D1%82%D0%B5%D1%80%D0%B8%D1%8F%D0%BA%D0%B8[1].webp',
+            category: 'hot'},
+      {price: 650, 
+        name: 'Чеюк Поккым',
+         desc: 'Хит корейской кухни – чеюк поккым...',
+          weight: '330 г',
+           img: 'https://koreana.rest/upload/products/%D1%87%D0%B5%D1%8E%D0%BA%D0%BF%D0%BE%D0%BA%D0%BA%D1%8B%D0%BC%D0%BC[1].webp',
+            category: 'hot'},
+      {price: 650,
+         name: 'Поссам', 
+         desc: 'Отварная свиная грудинка. Подается с фреш кимчи...',
+          weight: '330 г',
+          img: 'https://koreana.rest/upload/products/%D0%BF%D0%BE%D1%81%D1%81%D0%B0%D0%BC[1].webp', 
+          category: 'hot'},
+      {price: 360,
+         name: 'Онигири с лососем',
+          desc: 'Треугольник из риса с начинкой из лосося...', 
+          weight: '130 г',
+           img: 'https://koreana.rest/upload/products/%D0%BE%D0%BD%D0%B8%D0%B3%D0%B8%D1%80%D0%B8.jpg', 
+           category: 'zakuski'},
+      {price: 360,
+         name: 'Сливочный Кимпаб',
+          desc: 'Вкус, напоминающий традиционные роллы: мягкий крем-сыр...', 
+          weight: '130 г', 
+          img: 'https://koreana.rest/upload/products/%D1%81%D0%BB%D0%B8%D0%B2%D0%BE%D1%87%D0%BD%D1%8B%D0%B9%20%D0%BA%D0%B8%D0%BC%D0%BF%D0%B0%D0%B1.webp', 
+          category: 'zakuski'},
+      {price: 360,
+         name: 'Острый чиккен',
+          desc: 'Настоящая корейская курочка в ярком сладко-остром соусе...', 
+          weight: '130 г', 
+          img: 'https://koreana.rest/upload/products/%D0%BE%D1%81%D1%82%D1%80%D1%8B%D0%B9%20%D1%87%D0%B8%D0%BA%D0%BA%D0%B5%D0%BD.webp',
+           category: 'zakuski'},
+      {price: 360,
+         name: 'Медовый чиккен',
+          desc: 'Хрустящий корейский кляр идеально сохраняющий сочность курицы...',
+           weight: '130 г', 
+           img: 'https://koreana.rest/upload/products/%D0%BC%D0%B5%D0%B4%D0%BE%D0%B2%D1%8B%D0%B9%20%D1%87%D0%B8%D0%BA%D0%BA%D0%B5%D0%BD.webp', 
+           category: 'zakuski'},
+      {price: 570,
+         name: 'Муэр', 
+         desc: 'Острая закуска из ферментированных овощей...',
+          weight: '150 г',
+           img: 'https://koreana.rest/upload/%D0%B1%D0%BB%D0%BE%D0%B3-%D0%BA%D0%BE%D1%80%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%B0%D0%BB%D0%B0%D1%82%D1%8B-5.jpg', 
+           category: 'salat'},
+      {price: 490,
+         name: 'Соевая спаржа или фучжу',
+          desc: 'Свежий салат из огурцов с кунжутом и специями...', 
+          weight: '120 г', 
+          img: 'https://koreana.rest/upload/%D0%B1%D0%BB%D0%BE%D0%B3-%D0%BA%D0%BE%D1%80%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%B0%D0%BB%D0%B0%D1%82%D1%8B-7.jpg',
+           category: 'salat'},
+      {price: 520,
+         name: 'Хе', 
+         desc: 'Острая морковь с чесноком и кориандром...',
+          weight: '140 г',
+           img: 'https://koreana.rest/upload/%D0%B1%D0%BB%D0%BE%D0%B3-%D0%BA%D0%BE%D1%80%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D0%B5-%D1%81%D0%B0%D0%BB%D0%B0%D1%82%D1%8B-2.jpg', category: 'salat'},
+      // Без категории (default в "Выбор пользователей")
+      {price: 630,
+         name: 'Пибимпаб',
+          desc: 'Рис с овощами, мясом, яйцом и острой пастой кочудян.',
+           weight: '350 г', 
+           img: 'https://lifehacker.ru/wp-content/uploads/2022/10/shutterstock_604838036_1666701568-scaled.jpg'},
+      {price: 430,
+         name: 'Ттокпокки',
+          desc: 'Рисовые палочки в пряном соусе кочудян...',
+           weight: '200 г',
+            img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQF6h9Qavt5Xrmbz_8FZIhWjEjYnkzdfZAwcQ&s'},
+      {price: 710,
+         name: 'Самгёпсаль',
+          desc: 'Жареная свинина, завёрнутая в листья салата с соусом...',
+           weight: '250 г',
+            img: 'https://shilla.su/wp-content/uploads/2019/06/Samgepsal.jpg'},
+      {price: 390,
+         name: 'Кимбап',
+          desc: 'Рис и овощи, завернутые в водоросли. Корейский “ролл”.',
+           weight: '220 г',
+            img: 'https://vkusvill.ru/upload/resize/1209305/roll-kimbap_588x409x90_c.webp'},
+      {price: 530,
+         name: 'Сундубу-чиге',
+          desc: 'Острый суп с мягким тофу, морепродуктами и яйцом.', 
+          weight: '300 г',
+         img: 'https://avatars.mds.yandex.net/i?id=13fccb70fc1b5e6c583e20a7a497df65_l-8199228-images-thumbs&n=13'},
+      {price: 670,
+         name: 'Пулькоги', 
+         desc: 'Тонко нарезанная говядина, маринованная и обжаренная с овощами.',
+          weight: '270 г', 
+          img: 'https://koreana.rest/upload/article/%D0%9F%D1%83%D0%BB%D1%8C%D0%BA%D0%BE%D0%B3%D0%B8%20%D0%B2%20%D0%A1%D0%9F%D0%91.%20%D0%9A%D0%BE%D1%80%D0%B5%D0%B9%D1%81%D0%BA%D0%B8%D0%B9%20%D1%80%D0%B5%D1%81%D1%82%D0%BE%D1%80%D0%B0%D0%BD%20%D0%9A%D0%BE%D1%80%D0%B5%D0%B0%D0%BD%D0%B0.jpg'},
+      {price: 610,
+         name: 'Чапчхе', 
+         desc: 'Лапша из батата с овощами и мясом, заправленная кунжутным маслом.', 
+         weight: '320 г', img: 'https://img.iamcook.ru/old/upl/recipes/cat/u6009-3fc1b78c03fc2e51b4beb38a4aff673c.jpg'},
+      {price: 480,
+         name: 'Ходдок',
+          desc: 'Жареная сладкая лепёшка с карамельной начинкой и орехами.', 
+          weight: '120 г',
+           img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOLiQAOtR3X-ojJCoYQOY-GD3B5Wx_RdbGkg&s'},
+      {price: 490,
+         name: 'Куксу', 
+         desc: 'Лёгкий холодный суп с лапшой и овощами. Освежает в жару!',
+          weight: '340 г',
+           img: 'https://koreana.rest/upload/blog/%D0%BA%D1%83%D0%BA%D1%81%D0%B8-%D1%80%D0%B5%D1%86%D0%B5%D0%BF%D1%82.jpg',
+            category: 'cold'},
+      {price: 570,
+         name: 'Кимчи',
+          desc: 'Острая закуска из ферментированных овощей...', 
+          weight: '150 г',
+           img: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4h2ZMWQ-BW5Zs5-yyTXX0-fQFEEms7139sA&s', 
+           category: 'cold'}
+    ];
+let cart = [];
+
+// --- DOM-элементы ---
+const dishList      = document.getElementById('dish-list');
+const sectionTitle  = document.querySelector('.section-title');
+const profileBtn    = document.getElementById('profile-btn'); // ВЕРНО!
+const authModal     = document.getElementById('auth-modal');
+const authClose     = document.getElementById('auth-close');
+const loginForm     = document.getElementById('login-form');
+const registerForm  = document.getElementById('register-form');
+const showRegister  = document.getElementById('show-register');
+const showLogin     = document.getElementById('show-login');
+const profileDropdown = document.getElementById('profile-dropdown');
+const logoutBtn = document.getElementById('logout-btn');
+const myOrdersBtn = document.getElementById('my-orders-btn');
+
+
+// --- Открыть модалку (только если не залогинен) ---
+profileBtn.addEventListener('click', () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || !user.username) {
+    authModal.style.display = 'flex';
+    loginForm.style.display = '';
+    registerForm.style.display = 'none';
+  }
+});
+
+// --- Закрыть модалку ---
+authClose.addEventListener('click', () => authModal.style.display = 'none');
+authModal.addEventListener('click', e => {
+  if (e.target === authModal) authModal.style.display = 'none';
+});
+
+// --- Переключить на регистрацию ---
+showRegister.addEventListener('click', e => {
+  e.preventDefault();
+  loginForm.style.display    = 'none';
+  registerForm.style.display = '';
+});
+// --- Переключить обратно на логин ---
+showLogin.addEventListener('click', e => {
+  e.preventDefault();
+  registerForm.style.display = 'none';
+  loginForm.style.display    = '';
+});
+
+// --- ЛОГИН ---
+loginForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const identifier = document.getElementById('login-identifier').value;
+  const password = document.getElementById('login-password').value;
+
+  try {
+    const res = await fetch('/api/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ identifier, password }) // отправляем одно поле
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ошибка входа');
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    updateProfileButton(data.user.username);
+    authModal.style.display = 'none';
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+
+// --- РЕГИСТРАЦИЯ ---
+registerForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  const email    = document.getElementById('reg-email').value;
+  const username = document.getElementById('reg-username').value;
+  const password = document.getElementById('reg-password').value;
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, username, password })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ошибка регистрации');
+
+    localStorage.setItem('user', JSON.stringify(data.user));
+    updateProfileButton(data.user.username);
+    authModal.style.display = 'none';
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+// --- Рендер блюд ---
+function renderDishes(category = 'all') {
+  dishList.innerHTML = '';
+  dishes
+    .map((dish, idx) => ({ ...dish, origIdx: idx }))
+    .filter(dish => category === 'all' || dish.category === category)
+    .forEach((dish) => {
+      const card = document.createElement('div');
+      card.className = 'dish-card';
+      card.innerHTML = `
+        <img src="${dish.img}" class="dish-img" alt="${dish.name}">
+        <div class="dish-content">
+          <div class="dish-price">${dish.price}₽</div>
+          <div class="dish-title" title="${dish.name}">${dish.name}</div>
+          <div class="dish-desc">${dish.desc}</div>
+          <div class="dish-weight">${dish.weight}</div>
+        </div>
+        <button class="add-btn" data-idx="${dish.origIdx}"><span>+</span> Добавить</button>
+      `;
+      dishList.appendChild(card);
+    });
+}
+renderDishes('all');
+
+// --- Переключение категорий ---
+document.querySelectorAll('.menu-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.menu-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const category = btn.getAttribute('data-category');
+    renderDishes(category);
+    let titles = {
+      'all': 'Выбор пользователей',
+      'cold': 'Холодные блюда',
+      'salat': 'Салаты',
+      'zakuski': 'Закуски',
+      'soup': 'Супы',
+      'hot': 'Горячие блюда'
+    };
+    sectionTitle.textContent = titles[category] || 'Выбор пользователей';
+  });
+});
+
+// --- Добавление в корзину ---
+dishList.addEventListener('click', function(e) {
+  if (e.target.closest('.add-btn')) {
+    const idx = e.target.closest('.add-btn').dataset.idx;
+    const dish = dishes[idx];
+    const found = cart.find(item => item.name === dish.name);
+    if (found) {
+      found.qty++;
+    } else {
+      cart.push({ name: dish.name, price: dish.price, qty: 1 });
+    }
+    updateCart();
+  }
+});
+
+// --- Отрисовка корзины ---
+function updateCart() {
+  const cartItems = document.getElementById('cart-items');
+  const cartTotal = document.getElementById('cart-total');
+  const cartEmpty = document.getElementById('cart-empty');
+  cartItems.innerHTML = '';
+  let total = 0;
+  if (cart.length === 0) {
+    cartEmpty.style.display = '';
+    cartTotal.textContent = '';
+    return;
+  } else {
+    cartEmpty.style.display = 'none';
+  }
+  cart.forEach((item, i) => {
+    total += item.price * item.qty;
+    const div = document.createElement('div');
+    div.className = 'cart-item';
+    div.innerHTML = `
+      <span class="cart-item-title">${item.name}</span>
+      <div class="cart-item-controls">
+        <button class="cart-item-btn minus" data-idx="${i}">–</button>
+        <span class="cart-item-qty">${item.qty} x ${item.price}₽</span>
+        <button class="cart-item-btn plus" data-idx="${i}">+</button>
+      </div>
+    `;
+    cartItems.appendChild(div);
+  });
+  cartTotal.textContent = `Итого: ${total}₽`;
+}
+
+// --- Модалка заказа ---
+const orderBtn     = document.getElementById('order-btn');
+const orderModal   = document.getElementById('order-modal');
+const closeModalBtn= document.getElementById('close-order-modal');
+const orderForm    = document.getElementById('order-form');
+const thanksMsg    = document.getElementById('order-success');
+
+orderBtn.addEventListener('click', () => {
+  if (cart.length === 0) return;
+  orderModal.style.display = 'flex';
+  thanksMsg.style.display = 'none';
+  orderForm.style.display = '';
+});
+closeModalBtn.addEventListener('click', () => {
+  orderModal.style.display = 'none';
+});
+orderForm.addEventListener('submit', async function(e) {
+  e.preventDefault();
+  const name = document.getElementById('order-name').value;
+  const lastname = document.getElementById('order-lastname').value;
+  const phone = document.getElementById('order-phone').value;
+  const address = document.getElementById('order-address').value;
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || !user.id) {
+    alert("Авторизуйтесь для оформления заказа");
+    return;
+  }
+  try {
+    const res = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        userId: user.id,
+        cart: cart,
+        name, lastname, phone, address
+      })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ошибка при оформлении заказа');
+    orderForm.style.display = 'none';
+    thanksMsg.style.display = '';
+    cart = [];
+    updateCart();
+    setTimeout(() => {
+      orderModal.style.display = 'none';
+      orderForm.reset();
+      orderForm.style.display = '';
+    }, 2000);
+  } catch (err) {
+    alert(err.message);
+  }
+});
+
+// --- Обработчик + и – в корзине ---
+document.getElementById('cart-items').addEventListener('click', function(e) {
+  if (e.target.classList.contains('plus')) {
+    const idx = +e.target.dataset.idx;
+    cart[idx].qty++;
+    updateCart();
+  }
+  if (e.target.classList.contains('minus')) {
+    const idx = +e.target.dataset.idx;
+    cart[idx].qty--;
+    if (cart[idx].qty <= 0) {
+      cart.splice(idx, 1);
+    }
+    updateCart();
+  }
+});
+
+// --- Кнопка профиля (инициал/Войти) ---
+function updateProfileButton(username) {
+  if (username) {
+    const firstLetter = username.charAt(0).toUpperCase();
+    profileBtn.innerHTML = `<div style="
+      width:32px; height:32px;
+      background:#d17c13; 
+      border-radius:50%;
+      display:flex; 
+      align-items:center; 
+      justify-content:center;
+      font-weight:bold;
+      color:#fff;
+      font-size:1em;
+    ">${firstLetter}</div>`;
+  } else {
+    profileBtn.textContent = 'Войти';
+  }
+}
+
+// --- При загрузке страницы ---
+window.addEventListener('DOMContentLoaded', () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.username) {
+    updateProfileButton(user.username);
+  } else {
+    updateProfileButton(null);
+  }
+});
+
+// Открытие/закрытие дропдауна
+profileBtn.addEventListener('click', (e) => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (user && user.username) {
+    profileDropdown.style.display = profileDropdown.style.display === 'none' ? 'flex' : 'none';
+    e.stopPropagation();
+  }
+  // иначе откроется форма входа (эта логика уже выше)
+});
+
+// Клик вне меню — скрыть дропдаун
+document.addEventListener('click', (e) => {
+  if (!profileDropdown.contains(e.target) && e.target !== profileBtn) {
+    profileDropdown.style.display = 'none';
+  }
+});
+
+// Выйти
+logoutBtn.addEventListener('click', () => {
+  localStorage.removeItem('user');
+  window.location.reload();
+});
+
+
+const registerError = document.getElementById('register-error');
+registerForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  registerError.style.display = 'none'; // скрыть старую ошибку
+  const email    = document.getElementById('reg-email').value;
+  const username = document.getElementById('reg-username').value;
+  const password = document.getElementById('reg-password').value;
+
+  try {
+    const res = await fetch('/api/register', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, username, password })
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Ошибка регистрации');
+    localStorage.setItem('user', JSON.stringify(data.user));
+    updateProfileButton(data.user.username);
+    authModal.style.display = 'none';
+  } catch (err) {
+    registerError.textContent = err.message;
+    registerError.style.display = '';
+  }
+});
+
+// --- Модалка заказов пользователя ---
+const ordersModal = document.getElementById('orders-modal');
+const ordersClose = document.getElementById('orders-close');
+const ordersList = document.getElementById('orders-list');
+const ordersClear = document.getElementById('orders-clear');
+
+// Открыть "Мои заказы"
+myOrdersBtn.addEventListener('click', async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || !user.id) {
+    alert("Сначала войдите в аккаунт");
+    return;
+  }
+  await loadOrders(user.id);        // грузим заказы с сервера
+  ordersModal.style.display = 'flex';
+  profileDropdown.style.display = 'none'; // прячем дропдаун профиля
+});
+
+// Закрыть модалку
+ordersClose.addEventListener('click', () => {
+  ordersModal.style.display = 'none';
+});
+ordersModal.addEventListener('click', e => {
+  if (e.target === ordersModal) ordersModal.style.display = 'none';
+});
+
+// Очистить заказы
+ordersClear.addEventListener('click', async () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+  if (!user || !user.id) return;
+  await fetch(`/api/orders`, {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ userId: user.id })
+  });
+  await loadOrders(user.id);
+});
+
+// Функция загрузки заказов
+async function loadOrders(userId) {
+  ordersList.innerHTML = 'Загрузка...';
+  try {
+    const res = await fetch(`/api/orders?userId=${userId}`);
+    const orders = await res.json();
+    if (!res.ok) throw new Error(orders.error || 'Ошибка');
+    if (!orders || !orders.length) {
+      ordersList.innerHTML = '<div style="color:#888;text-align:center;padding:30px 0 15px">Пока что нет заказов</div>';
+      return;
+    }
+    // Рендерим каждый заказ
+    ordersList.innerHTML = orders.map(order => {
+      const items = order.order_data || [];
+      const renderedItems = items.map(item => {
+        const dish = dishes.find(d => d.name === item.name);
+        return `
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <img src="${dish ? dish.img : ''}" alt="${item.name}" style="width:45px;height:45px;border-radius:10px;object-fit:cover;">
+            <div>
+              <b>${item.name}</b><br>
+              <span style="font-size:0.95em;">${item.qty} x ${item.price}₽</span>
+            </div>
+          </div>
+        `;
+      }).join('');
+      // Сумма заказа
+      const total = items.reduce((sum, item) => sum + (item.qty * item.price), 0);
+      return `
+        <div style="background:#faf9f7;padding:15px 18px;margin-bottom:16px;border-radius:13px;box-shadow:0 2px 10px #0001;">
+          <div style="font-weight:600;margin-bottom:6px;">
+            ${order.name} ${order.lastname} | ${order.phone}<br>
+            <span style="font-weight:400;color:#555;">${order.address}</span>
+          </div>
+          ${renderedItems}
+          <div style="margin-top:10px;font-weight:bold;">Сумма: ${total}₽</div>
+          <div style="color:#aaa;font-size:0.93em;">${new Date(order.created_at).toLocaleString()}</div>
+        </div>
+      `;
+    }).join('');
+  } catch (err) {
+    ordersList.innerHTML = `<span style="color:red;">${err.message}</span>`;
+  }
+}
+
+// --- Темная/светлая тема ---
+// Сохраняем выбор пользователя в localStorage
+const themeToggle = document.getElementById('theme-toggle');
+function applyTheme(dark) {
+  if (dark) {
+    document.body.classList.add('dark');
+    themeToggle.checked = true;
+  } else {
+    document.body.classList.remove('dark');
+    themeToggle.checked = false;
+  }
+  localStorage.setItem('theme', dark ? 'dark' : 'light');
+}
+
+// При загрузке применяем тему
+window.addEventListener('DOMContentLoaded', () => {
+  const savedTheme = localStorage.getItem('theme');
+  applyTheme(savedTheme === 'dark');
+  // остальное...
+});
+
+// При переключении
+themeToggle.addEventListener('change', (e) => {
+  applyTheme(e.target.checked);
+});
+
+
+  </script>
+</body>
+</html>
+
+  </script>
+</body>
+</html>
